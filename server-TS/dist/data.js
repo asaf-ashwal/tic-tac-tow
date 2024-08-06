@@ -11,6 +11,7 @@ const players = {
 const RoomsData = {
     ['123456']: new Rooms_1.default()
 };
+
 // rooms['123456']
 exports.default = { RoomsData, players };
 players['1234'] = {

@@ -1,0 +1,66 @@
+.main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    /* gap: 5rem; */
+}
+
+.top {
+    width: 100%;
+    height: 12rem;
+}
+
+.reternButten {
+    position: fixed;
+    top: 1.1rem;
+    left: 1.1em;
+}
+
+.inputDiv {
+    margin-top: 1.8rem;
+    width: 100%;
+    height: 5.2rem;
+}
+
+.inputDiv input {
+    width: 100%;
+    height: 100%;
+    font-size: xx-large;
+    padding-left: 2rem;
+    font-weight: bold;
+    color: #CDCDCD;
+}
+
+.inputDiv input::placeholder {
+    color: #CDCDCD;
+}
+
+.bottom {
+    width: 90%;
+    height: 26rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 0;
+
+}
+
+.joinBut {
+    width: 11rem;
+    height: 4.5rem;
+}
+
+.createBut {
+    width: 90%;
+    height: 4.5rem;
+}
+
+.p {
+    color: white;
+    font-weight: 900;
+    font-size: 50px;
+}

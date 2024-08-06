@@ -1,0 +1,24 @@
+.main {
+    border: 3px solid black;
+    /* border: 10px; */
+    background-color: #C9F9FC;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    width: 100%;
+    height: 100%;
+}
+
+.main:disabled {
+    cursor: not-allowed;
+    /* color: black; */
+}
+
+.lost {
+    background-color: #D1D1D1;
+}
+
+/* width: 7rem;
+height: 7rem; */

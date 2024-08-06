@@ -1,0 +1,35 @@
+.main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+}
+
+.main img {
+    padding-bottom:2rem;
+    width: 15rem;
+}
+
+.buttens {
+    padding-bottom:2rem;
+    width: 92%;
+    height: 38%;
+    /* background-color: antiquewhite; */
+    display: flex;
+    gap: 3.7rem;
+    /* justify-content: space-evenly; */
+    flex-direction: column;
+}
+
+.but {
+    width: 100%;
+    height: 6.5rem;
+}
+.buttenDef{
+    position: fixed;
+    bottom: 1.1rem;
+    right: 1.1em;
+}

@@ -1,0 +1,56 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: #fadcdc; */
+}
+
+.p {
+    position: relative;
+    margin: auto;
+    color: #fff;
+    /* font-size: small; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    border-radius: 7px;
+    width: 5.5rem;
+    height: 2rem;
+}
+
+.img {
+    position: absolute;
+    top: -6rem;
+    width: 6.5rem;
+    border-radius: 50%;
+    border: 2.3px solid brown;
+}
+
+.myTurn {
+    top: -6.5rem;
+    width: 7rem;
+    border-color: rgb(0, 187, 255);
+}
+.winsMyTurn {
+    width: 6.5rem;
+    
+}
+.name{
+font-size: xx-large;
+}
+.toFlex{
+    display: flex;
+gap: 1px;
+}
+.toFlex p{
+    font-size: x-large;
+}
+
+
+
+
+
+
+
+

@@ -18,6 +18,7 @@ const io = new socket_io_1.Server(server, {
     cors: {
         origin: '*'
     }
+    
 });
 // // טיפול בחיבורים של Socket.io
 let theSocket = '';

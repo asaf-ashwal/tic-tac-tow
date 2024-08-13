@@ -156,8 +156,10 @@ function main1(mark) {
         return res2;
     return false;
 }
+// פונקציה שמקבלת מיקום במערך ומחזירה איזה שורות צריך לבדוק ואם יש אלכסונים איזה לבדוק
+// TO-DO // להעביר את gameSize לDATA
 function rowStart(lastChoice) {
-    const gameSize = 4;
+    const gameSize = 3;
     let toReturn = {};
     toReturn.startRow = Math.floor((lastChoice / gameSize)) * gameSize;
     toReturn.startcolom = lastChoice - toReturn.startRow;

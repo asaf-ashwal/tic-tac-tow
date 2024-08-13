@@ -36,6 +36,8 @@ io.on('connection', (socket) => {
 
     // Create mark in room || WORKS !!!
     socket.on("chooseMark", async (data) => {
+        // console.log(data);
+        
         func.addMark(data, theSocket).then((result) => {
             io.emit('startGame', result);
         })
@@ -43,7 +45,6 @@ io.on('connection', (socket) => {
 
     // Create room and returen roomId || WORKS !!!
     socket.on("createRoom", async (data) => {
-        console.log('הגיע לפה')
         func.createRoom(theSocket)
             .then((result) => {
                 io.emit('roomId', result);

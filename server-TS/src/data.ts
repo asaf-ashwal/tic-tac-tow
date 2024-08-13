@@ -12,20 +12,24 @@ const RoomsData: { [key: string]: Rooms } = {
 }
 // rooms['123456']
 
+
 export default { RoomsData, players }
-players['1234'] = {
-    name: 'asaf',
-    imag: 1,
-    roomId: '123456'
-} 
-players['2221'] = {
-    name: 'ori',
-    imag: 1,
-    roomId: '123456'
-}
-players['2221']
-RoomsData['123456'].addPlayer('1234')
-RoomsData['123456'].addPlayer('2221')
+// players['1234'] = {
+//     name: 'asaf',
+//     imag: 1,
+//     roomId: '123456'
+// } 
+// players['2221'] = {
+//     name: 'ori',
+//     imag: 1,
+//     roomId: '123456'
+// }
+// players['2221']
+// RoomsData['123456'].addPlayer('1234')
+// RoomsData['123456'].addPlayer('2221')
+
+
+
 
 // let NRoom:{[key: string]: Rooms}wq589-451={
 //     ['123456']: new Rooms()

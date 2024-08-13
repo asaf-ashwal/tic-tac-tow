@@ -54,7 +54,7 @@ export default function index() {
                     onClick={() =>
                       (thisStile = `${style.avatr} ${style.mainAvatar}`)
                     }
-                    className={imag.styleרכ}
+                    className={imag.style}
                   >
                     <img src={imag.img} alt="" />
                   </div>
@@ -75,4 +75,3 @@ export default function index() {
   );
 }
 
-+

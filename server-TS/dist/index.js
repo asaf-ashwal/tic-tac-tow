@@ -1,4 +1,3 @@
-// wellcom
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -18,7 +17,6 @@ const io = new socket_io_1.Server(server, {
     cors: {
         origin: '*'
     }
-    
 });
 // // טיפול בחיבורים של Socket.io
 let theSocket = '';
@@ -33,13 +31,13 @@ io.on('connection', (socket) => {
     });
     // Create mark in room || WORKS !!!
     socket.on("chooseMark", async (data) => {
+        // console.log(data);
         func_1.default.addMark(data, theSocket).then((result) => {
             io.emit('startGame', result);
         });
     });
     // Create room and returen roomId || WORKS !!!
     socket.on("createRoom", async (data) => {
-        console.log('הגיע לפה');
         func_1.default.createRoom(theSocket)
             .then((result) => {
             io.emit('roomId', result);

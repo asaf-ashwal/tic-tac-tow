@@ -22,7 +22,7 @@ const io = new socket_io_1.Server(server, {
 let theSocket = '';
 console.log(theSocket);
 io.on('connection', (socket) => {
-    theSocket = socket.id;
+    theSocket = 'a'; // socket.id;
     // add player || WORKS !!!
     socket.on("addNewUser", async (data) => {
         func_1.default.addNewUser(data, theSocket).then((result) => {
@@ -55,6 +55,19 @@ io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
         console.log('Message from client: ' + msg);
         io.emit('chat message', msg); // שולח את ההודעה לכל הלקוחות
+    });
+    socket.on('readyToGetGameData', (x) => {
+        let result = func_1.default.getStartGameData(x);
+        socket.emit('getGmaeStartData', result);
+    });
+    socket.on('updateIndex', (data) => {
+        let res = func_1.default.dataAdder(data.index, theSocket);
+        console.log(res);
+        if (res.wins) {
+            io.emit('winsArr', res.wins);
+        }
+        io.emit('getUpdatedIndex', res);
+        // io.emit('chat message', msg); // שולח את ההודעה לכל הלקוחות
     });
 });
 const PORT = 3999;

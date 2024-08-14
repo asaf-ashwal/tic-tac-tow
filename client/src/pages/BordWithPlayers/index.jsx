@@ -7,38 +7,9 @@ import OpshensBut from "../../components/OpshensBut";
 import {socetContext} from "../../App";
 
 export default function index() {
-const [tornFlag, setTornFlag] = useState(true)
-const [myMark, setMyMark] = useState(false)
-
-  const {socket} = useContext(socetContext);
-  socket.on("winsArr", (data) => {
-    const updatedChoose = [...arr];
-    updatedChoose.map(v, (i) => {
-      if (!data[i].mark) v.lost == true;
-    });
-    setArr(updatedChoose);
-  });
-  socket.on("getGmaeStartData", (data) => {
-    scoundPlayer = data.scoundPlayer;
-    setMyMark(data.mark);
-  });
-  socket.on("getUpdatedIndex", (data) => {
-    const updatedChoose = [...arr];
-    const newindex = {activ: false, lost: false, x_o: data.index};
-    updatedChoose[data.index] = newindex;
-    setArr(updatedChoose);
-    setTornFlag(!tornFlag)
-  });
-  let imgs = [
-    "https://media.npr.org/assets/img/2011/08/17/fguy2006_stewie1_f_custom-f9251870653c8aab9ab0a47f028b281c97b6f1cb.jpg",
-    "../../../public/avatar_girl.png",
-  ];
-  const scoundPlayer = {
-    img: "",
-    name: "",
-    wins: "",
-    mark: "",
-  };
+  const [tornFlag, setTornFlag] = useState(true);
+  const [myMark, setMyMark] = useState("x");
+  const [scoundPlayer, setScoundPlayer] = useState(false);
 
   const [arr, setArr] = useState([
     {activ: false, lost: false, x_o: ""},
@@ -51,11 +22,59 @@ const [myMark, setMyMark] = useState(false)
     {activ: false, lost: false, x_o: ""},
     {activ: false, lost: false, x_o: ""},
   ]);
+  const {socket} = useContext(socetContext);
+  socket.on("winsArr", (data) => {
+    // console.log(data);
+
+    const updatedChoose = [...arr];
+
+    data.forEach((element) => {
+      updatedChoose[element.index].x_o = element.mark;
+    });
+
+    updatedChoose.map((v, i) => {
+
+      for (const key in data) {
+        if (key.index === i)
+          
+      }
+      // if (!v.mark == 'x') v.lost == true;
+    });
+    console.log(updatedChoose);
+    
+    setArr(updatedChoose);
+  });
+
+  socket.on("getUpdatedIndex", async (data) => {
+    const updatedChoose = [...arr];
+    const newindex = {activ: false, lost: false, x_o: data.mark};
+
+    updatedChoose[data.lastChoice] = newindex;
+
+    setArr(updatedChoose);
+  });
+
+  socket.on("getGmaeStartData", (data) => {
+    console.log(data);
+
+    setScoundPlayer({
+      img: "",
+      name: data.secondPlayerData.name,
+      wins: data.secondPlayerData.wins,
+      mark: data.secondPlayerData.mark,
+    });
+    setMyMark(data.mark);
+  });
+  let imgs = [
+    "https://media.npr.org/assets/img/2011/08/17/fguy2006_stewie1_f_custom-f9251870653c8aab9ab0a47f028b281c97b6f1cb.jpg",
+    "../../../public/avatar_girl.png",
+  ];
+
   const handleClick = (index) => {
     if (tornFlag) socket.emit("updateIndex", {index});
   };
   useEffect(() => {
-    socket.emit("readyToGetGameData");
+    socket.emit("readyToGetGameData", "a");
   }, []);
   return (
     <div className={style.main}>
@@ -65,14 +84,14 @@ const [myMark, setMyMark] = useState(false)
           imag={imgs[0]}
           wins={"12"}
           myTurn={tornFlag}
-          x_o={"o"}
+          x_o={myMark}
         />
         <YoserInfo
           name={scoundPlayer.name}
           imag={imgs[1]}
           wins={scoundPlayer.wins}
           myTurn={!tornFlag}
-          x_o={"o"}
+          x_o={scoundPlayer.mark}
         />
       </div>
       <div className={style.bord}>

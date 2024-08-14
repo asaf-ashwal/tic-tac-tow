@@ -6,26 +6,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const players_1 = __importDefault(require("./classes/players"));
 const Rooms_1 = __importDefault(require("./classes/Rooms"));
 const players = {
-    a: new players_1.default("moshe", 5),
+    a: new players_1.default("asaf", 5, '123456'),
+    b: new players_1.default("ori", 1, '123456'),
 };
 const RoomsData = {
     ['123456']: new Rooms_1.default()
 };
+RoomsData['123456'].addPlayer('a', 'x');
+RoomsData['123456'].addPlayer('b', 'o');
+// RoomsData['123456'].addPlayer('2221')
 // rooms['123456']
 exports.default = { RoomsData, players };
 // players['1234'] = {
 //     name: 'asaf',
 //     imag: 1,
 //     roomId: '123456'
-// } 
+// }
 // players['2221'] = {
 //     name: 'ori',
 //     imag: 1,
 //     roomId: '123456'
 // }
 // players['2221']
-// RoomsData['123456'].addPlayer('1234')
-// RoomsData['123456'].addPlayer('2221')
 // let NRoom:{[key: string]: Rooms}wq589-451={
 //     ['123456']: new Rooms()
 // }

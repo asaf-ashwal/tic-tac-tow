@@ -22,7 +22,7 @@ let theSocket = ''
 console.log(theSocket);
 
 io.on('connection', (socket) => {
-    theSocket = socket.id;
+    theSocket = 'a'// socket.id;
 
 
     // add player || WORKS !!!
@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
     // Create mark in room || WORKS !!!
     socket.on("chooseMark", async (data) => {
         // console.log(data);
-        
+
         func.addMark(data, theSocket).then((result) => {
             io.emit('startGame', result);
         })
@@ -61,20 +61,40 @@ io.on('connection', (socket) => {
                 // io.emit('continue', true);
             })
     });
-
     socket.on('chat message', (msg: string) => {
         console.log('Message from client: ' + msg);
         io.emit('chat message', msg); // שולח את ההודעה לכל הלקוחות
     });
+
+
+
+
+
+    socket.on('readyToGetGameData', (x) => {
+        let result = func.getStartGameData(x)
+        socket.emit('getGmaeStartData', result)
+    });
+
+    socket.on('updateIndex', (data) => {
+        let res = func.dataAdder(data.index, theSocket)
+        console.log(res);
+
+        if (res.wins) {
+            io.emit('winsArr', res.wins)
+        }
+        io.emit('getUpdatedIndex', res)
+
+        // io.emit('chat message', msg); // שולח את ההודעה לכל הלקוחות
+    });
+
+
+
 });
 
 const PORT = 3999;
 server.listen(PORT, () => {
     console.log(`Server is running on PORT || ${PORT}`);
 });
-
-
-
 
 
 // import ItemRouter from './routes/ItemRouter'

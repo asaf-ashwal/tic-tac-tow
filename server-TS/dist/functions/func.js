@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Rooms_1 = __importDefault(require("../classes/Rooms"));
 const data_1 = __importDefault(require("../data"));
+const gameSize = 3;
 async function handleJoin(data, theSocket) {
     if (data_1.default.RoomsData[data.joinCode]) {
         data_1.default.RoomsData[data.joinCode].players[theSocket] = { wins: 0 };
@@ -62,100 +63,62 @@ async function addNewUser(data, socketId) {
     data_1.default.players[socketId] = data;
     return true;
 }
-exports.default = { addNewUser, handleJoin, createRoom, addMark, winingFunction };
-let arr = [{ mark: 'x' }, { mark: 'x' }, { mark: 'x' }, { mark: 'x' }, { mark: 'x' }, { mark: 'x' }, { mark: 'x' }, { mark: 'x' }, { mark: 'x' },];
-function double(mark) {
-    let winCheck1 = victoryCheck(mark, 1);
-    if (winCheck1)
-        return winCheck1;
-    let winCheck2 = victoryCheck(mark, 3);
-    if (winCheck2)
-        return winCheck2;
-    let winCheck3 = victoryCheck(mark, 4);
-    if (winCheck3)
-        return winCheck3;
-    return false;
-}
-function winingFunction(lastChoice, mark) {
-    if (lastChoice % 2 == 1) {
-        let test = victoryCheck('x', 3);
-        if (!test) {
-            test = victoryCheck('x', 1);
-        }
-        return test;
-    }
-    else if (lastChoice % 2 == 1) {
-        let test = victoryCheck('x', 1);
-        // if (!test) {
-        //     let newTest = victoryCheck('x', 3)
-        //     if (!newTest) {
-        //         let newTest = victoryCheck('x', 4)
-        //         if (!newTest) {
-        //             let newTest = victoryCheck('x', 4)
-        //         }
-        //     }
-        // }
-        if (lastChoice % 2 == 0) {
-            let cheker = double(mark);
-            return cheker;
-        }
-        return test;
-    }
-    return false;
-}
-function dataAdder(theNewObj, playerId) {
-    let count = data_1.default.RoomsData[data_1.default.players[playerId].roomId].corrent.filter(element => element !== undefined).length;
-    if (count >= 5) {
-    }
-}
-function victoryCheck(mark, skip, location = 0) {
-    let theWining = [];
-    for (let index = location; index < arr.length;) {
-        if (theWining.length == 3) {
-            return theWining;
-        }
-        else if (arr[index].mark == mark) {
-            theWining.push(arr[index]);
-            index += skip;
-        }
-        else if (arr[index].mark !== mark) {
-            theWining = [];
-            return false;
-        }
-        else
-            return false;
-    }
-    if (!theWining[2]) {
-        return false;
-    }
-    else
-        return theWining;
-}
-function main1(mark) {
-    const gameSize = 3;
-    // Chack for balace
-    for (let index = 0; index < gameSize; index++) {
-        const res = victoryCheck(mark, gameSize, index);
-        if (res)
-            return res;
-    }
-    // Chack for vertical
-    for (let index = 0; index < gameSize; index++) {
-        let location = 0;
-        const res = victoryCheck(mark, gameSize, location);
-        if (res)
-            return res;
-        else
-            location += gameSize;
-    }
-    const res1 = victoryCheck(mark, gameSize + 1, 0);
-    if (res1)
-        return res1;
-    const res2 = victoryCheck(mark, gameSize + 1, gameSize);
-    if (res2)
-        return res2;
-    return false;
-}
+// function double(mark: string): (boolean | { mark: string; }[]) {
+//     let winCheck1 = victoryCheck(mark, 1);
+//     if (winCheck1) return winCheck1;
+//     let winCheck2 = victoryCheck(mark, 3);
+//     if (winCheck2) return winCheck2;
+//     let winCheck3 = victoryCheck(mark, 4);
+//     if (winCheck3) return winCheck3;
+//     return false;
+// }
+// function winingFunction(lastChoice: number, mark: string): (boolean | { mark: string; }[]) {
+//     if (lastChoice % 2 == 1) {
+//         let test = victoryCheck('x', 3)
+//         if (!test) {
+//             test = victoryCheck('x', 1)
+//         }
+//         return test
+//     }
+//     else if (lastChoice % 2 == 1) {
+//         let test = victoryCheck('x', 1)
+//         // if (!test) {
+//         //     let newTest = victoryCheck('x', 3)
+//         //     if (!newTest) {
+//         //         let newTest = victoryCheck('x', 4)
+//         //         if (!newTest) {
+//         //             let newTest = victoryCheck('x', 4)
+//         //         }
+//         //     }
+//         // }
+//         if (lastChoice % 2 == 0) {
+//             let cheker = double(mark)
+//             return cheker
+//         }
+//         return test
+//     }
+//     return false
+// }
+// function main1(mark: string)//:(Boolean | {mark: string;}[])
+// {
+//     // Chack for balace
+//     for (let index = 0; index < gameSize; index++) {
+//         const res = victoryCheck(mark, gameSize, index);
+//         if (res) return res
+//     }
+//     // Chack for vertical
+//     for (let index = 0; index < gameSize; index++) {
+//         let location: number = 0
+//         const res = victoryCheck(mark, gameSize, location);
+//         if (res) return res
+//         else location += gameSize
+//     }
+//     const res1 = victoryCheck(mark, gameSize + 1, 0);
+//     if (res1) return res1
+//     const res2 = victoryCheck(mark, gameSize + 1, gameSize);
+//     if (res2) return res2
+//     return false
+// }
 // פונקציה שמקבלת מיקום במערך ומחזירה איזה שורות צריך לבדוק ואם יש אלכסונים איזה לבדוק
 // TO-DO // להעביר את gameSize לDATA
 function rowStart(lastChoice) {
@@ -171,4 +134,88 @@ function rowStart(lastChoice) {
         toReturn.leftDiagonal = 0;
     return toReturn;
 }
-console.log(rowStart(5));
+function getStartGameData(socketId) {
+    const { players } = data_1.default.RoomsData['123456'];
+    const [secondPlayerID] = Object.keys(players).filter(id => id !== socketId);
+    return {
+        mark: players[socketId].mark,
+        secondPlayerData: Object.assign(Object.assign({}, players[secondPlayerID]), { name: data_1.default.players[secondPlayerID].name })
+    };
+}
+function victoryCheck(arr, mark, skip, location = 0) {
+    var _a, _b;
+    let theWining = [];
+    for (let index = location; index < arr.length;) {
+        if (theWining.length == 3) {
+            return theWining;
+        }
+        else if (((_a = arr[index]) === null || _a === void 0 ? void 0 : _a.mark) == mark) {
+            theWining.push({ mark: arr[index].mark, index });
+            index += skip;
+        }
+        else if (((_b = arr[index]) === null || _b === void 0 ? void 0 : _b.mark) !== mark) {
+            theWining = [];
+            return false;
+        }
+        else
+            return false;
+    }
+    if (!theWining[2]) {
+        return false;
+    }
+    else
+        return theWining;
+}
+function trying(arr, mark, sobjStart) {
+    // startsRows.map(location=>{victoryCheck('x',2,location)})
+    if (sobjStart.startcolom == 0 || sobjStart.startcolom) {
+        let res = victoryCheck(arr, mark, gameSize, sobjStart.startcolom);
+        if (res)
+            return res;
+    }
+    if (sobjStart.startRow == 0 || sobjStart.startcolom) {
+        let res = victoryCheck(arr, mark, 1, sobjStart.startRow);
+        if (res)
+            return res;
+    }
+    if (sobjStart.rightDiagonal) {
+        let res = victoryCheck(arr, mark, gameSize - 1, sobjStart.rightDiagonal);
+        if (res)
+            return res;
+    }
+    if (sobjStart.leftDiagonal == 0 || sobjStart.startcolom) {
+        let res = victoryCheck(arr, mark, gameSize + 1, sobjStart.leftDiagonal);
+        if (res)
+            return res;
+    }
+}
+function dataAdder(lastChoice, 
+// TODO // להוסיף למערך במידה והוא קטן מחמש ולהחזיר ללקוח
+// ואם הוא גדול מחמש ואין מנצח אז לעדכן את המערך ולהחזיר ללקוח
+playerId) {
+    let mark = data_1.default.RoomsData[data_1.default.players[playerId].roomId].players[playerId].mark;
+    let theArr = data_1.default.RoomsData[data_1.default.players[playerId].roomId].corrent;
+    data_1.default.RoomsData[data_1.default.players[playerId].roomId].updateCorrent(lastChoice, mark);
+    console.log(data_1.default.RoomsData[data_1.default.players[playerId].roomId].corrent.length);
+    if (data_1.default.RoomsData[data_1.default.players[playerId].roomId].corrent.length >= 5) {
+        let rowStarts = rowStart(lastChoice);
+        const res = trying(theArr, mark, rowStarts);
+        console.log(res);
+        if (res)
+            return { wins: res };
+        return { lastChoice, mark };
+    }
+    return { lastChoice, mark };
+}
+// console.log(dataAdder(2, 'a'))
+// console.log(dataAdder(3, 'b'))
+// console.log(dataAdder(0, 'b'))
+// console.log(dataAdder(8, 'a'))
+// console.log(dataAdder(5, 'a'))
+// console.log(DB.RoomsData[DB.players['a'].roomId as string].corrent);
+// console.log(trying('o', { startRow: 0, startcolom: 2, rightDiagonal: 2 }));
+let arr = [{ mark: 'x', loction: 0 }, { mark: 'x', loction: 1 }, { mark: 'o', loction: 2 },
+    { mark: 'x', loction: 3 }, { mark: 'o', loction: 4 }, { mark: 'o', loction: 5 },
+    { mark: 'x', loction: 6 }, { mark: 'x', loction: 7 }, { mark: 'x', loction: 8 },
+];
+exports.default = { dataAdder, getStartGameData, addNewUser, handleJoin, createRoom, addMark, };

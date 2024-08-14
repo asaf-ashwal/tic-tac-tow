@@ -5,9 +5,18 @@ import DB from '../data'
 const gameSize = 3;
 
 async function handleJoin(data: { userInfo: { name: string }, joinCode: string }, theSocket: string): Promise<boolean> {
-    if (DB.RoomsData[data.joinCode]) {
-        DB.RoomsData[data.joinCode].players[theSocket] = { wins: 0 };
-        console.log(DB.RoomsData[data.joinCode]);
+    console.log(data.joinCode);
+    console.log("here");
+
+    let joinCode = DB.RoomsData[data.joinCode]
+    console.log(DB.players);
+    
+    if (joinCode) {
+        joinCode.players[theSocket] = { wins: 0 };
+        // joinCode.players[theSocket] = { wins: 0 }; 
+        joinCode.addPlayer(theSocket)
+        DB.players[theSocket].roomId = data.joinCode
+        console.log(DB.players);
 
         return true;
     } else {
@@ -18,20 +27,24 @@ async function handleJoin(data: { userInfo: { name: string }, joinCode: string }
 
 async function createRoom(theSocket: string) {
 
-    //    TO DO ||  כשאתה מוסיף יוזר בחיבור צריך להוסיף לו פה את הקוד לחדר
     let roomId = String(Math.floor(100000 + Math.random() * 900000))
     if (!DB.RoomsData[roomId]) {
         DB.RoomsData[roomId] = new Rooms()
         DB.RoomsData[roomId].addPlayer(theSocket)
-        // DB.players[theSocket].roomId =roomId
+        console.log(DB.RoomsData[roomId].players, DB.RoomsData);
+
+        DB.players[theSocket].roomId = roomId
         return roomId
     } else { return false }
 }
 
 // console.log(createRoom('a'));
 
-async function addMark(mark: string, socketId: string): Promise<boolean> {
+async function addMark(mark: string, socketId: string)//: Promise<boolean> 
+{
     const secondPlayer = findSecondKey(DB.RoomsData[DB.players[socketId].roomId as string].players, socketId)
+    console.log({ secondPlayer });
+
     if (mark === 'x') {
         DB.RoomsData[DB.players[socketId].roomId as string].players[socketId].mark = mark
         DB.RoomsData[DB.players[socketId].roomId as string].players[secondPlayer as string].mark = 'o'
@@ -50,6 +63,7 @@ async function addMark(mark: string, socketId: string): Promise<boolean> {
 // פונקציה שמקבלת מערך ומפתח ראשון ומחזירה את המפתח השני
 function findSecondKey(obj: { [key: string]: any }, firstKey: string): string | string {
     const keys = Object.keys(obj);
+    console.log('here', { obj })
     const firstKeyIndex = keys.indexOf(firstKey);
 
     if (firstKeyIndex === -1) {
@@ -188,7 +202,10 @@ function rowStart(lastChoice: number): {
 
 
 function getStartGameData(socketId: string) {
-    const { players } = DB.RoomsData['123456'];
+    const roomId = DB.players[socketId].roomId;
+
+
+    const { players } = DB.RoomsData[roomId as string];
     const [secondPlayerID] = Object.keys(players).filter(id => id !== socketId);
 
     return {
@@ -285,8 +302,8 @@ function dataAdder(lastChoice: number,
 
 
 let arr = [{ mark: 'x', loction: 0 }, { mark: 'x', loction: 1 }, { mark: 'o', loction: 2 },
-    { mark: 'x', loction: 3 }, { mark: 'o', loction: 4 }, { mark: 'o', loction: 5 },
-    { mark: 'x', loction: 6 }, { mark: 'x', loction: 7 }, { mark: 'x', loction: 8 },
-    ]
-    
+{ mark: 'x', loction: 3 }, { mark: 'o', loction: 4 }, { mark: 'o', loction: 5 },
+{ mark: 'x', loction: 6 }, { mark: 'x', loction: 7 }, { mark: 'x', loction: 8 },
+]
+
 export default { dataAdder, getStartGameData, addNewUser, handleJoin, createRoom, addMark, }

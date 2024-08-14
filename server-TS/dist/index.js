@@ -19,14 +19,14 @@ const io = new socket_io_1.Server(server, {
     }
 });
 // // טיפול בחיבורים של Socket.io
-let theSocket = '';
-console.log(theSocket);
 io.on('connection', (socket) => {
-    theSocket = 'a'; // socket.id;
+    let theSocket = '';
+    theSocket = socket.id;
+    console.log(theSocket);
     // add player || WORKS !!!
     socket.on("addNewUser", async (data) => {
         func_1.default.addNewUser(data, theSocket).then((result) => {
-            io.emit('userAdded', result);
+            socket.emit('userAdded', result);
         });
     });
     // Create mark in room || WORKS !!!
@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
     socket.on("createRoom", async (data) => {
         func_1.default.createRoom(theSocket)
             .then((result) => {
-            io.emit('roomId', result);
+            socket.emit('roomId', result);
         });
     });
     // Second player joined || WORKS !!!
@@ -56,8 +56,8 @@ io.on('connection', (socket) => {
         console.log('Message from client: ' + msg);
         io.emit('chat message', msg); // שולח את ההודעה לכל הלקוחות
     });
-    socket.on('readyToGetGameData', (x) => {
-        let result = func_1.default.getStartGameData(x);
+    socket.on('readyToGetGameData', () => {
+        let result = func_1.default.getStartGameData(theSocket);
         socket.emit('getGmaeStartData', result);
     });
     socket.on('updateIndex', (data) => {

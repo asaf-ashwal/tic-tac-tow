@@ -7,7 +7,7 @@ import OpshensBut from "../../components/OpshensBut";
 import {socetContext} from "../../App";
 
 export default function index() {
-  const [tornFlag, setTornFlag] = useState(true);
+  const [tornFlag, setTornFlag] = useState(false);
   const [myMark, setMyMark] = useState("x");
   const [scoundPlayer, setScoundPlayer] = useState(false);
 
@@ -22,36 +22,32 @@ export default function index() {
     {activ: false, lost: false, x_o: ""},
     {activ: false, lost: false, x_o: ""},
   ]);
+
   const {socket} = useContext(socetContext);
+
   socket.on("winsArr", (data) => {
-    // console.log(data);
+    setTornFlag(false);
+    const CurrentBoardState = [...arr];
 
-    const updatedChoose = [...arr];
-
-    data.forEach((element) => {
-      updatedChoose[element.index].x_o = element.mark;
+    data.forEach((box) => {
+      CurrentBoardState[box.index].x_o = box.mark;
     });
 
-    updatedChoose.map((v, i) => {
-
-      for (const key in data) {
-        if (key.index === i)
-          
-      }
-      // if (!v.mark == 'x') v.lost == true;
+    const WinningBoxesIndexes = data.map((v) => v.index);
+    CurrentBoardState.map((v, i) => {
+      if (!WinningBoxesIndexes.includes(i)) CurrentBoardState[i].lost = true;
     });
-    console.log(updatedChoose);
-    
-    setArr(updatedChoose);
+    setArr(CurrentBoardState);
   });
 
   socket.on("getUpdatedIndex", async (data) => {
-    const updatedChoose = [...arr];
+    const CurrentBoardState = [...arr];
     const newindex = {activ: false, lost: false, x_o: data.mark};
 
-    updatedChoose[data.lastChoice] = newindex;
+    CurrentBoardState[data.lastChoice] = newindex;
 
-    setArr(updatedChoose);
+    setArr(CurrentBoardState);
+    setTornFlag(!tornFlag);
   });
 
   socket.on("getGmaeStartData", (data) => {
@@ -64,6 +60,7 @@ export default function index() {
       mark: data.secondPlayerData.mark,
     });
     setMyMark(data.mark);
+    data.mark == "x" ? setTornFlag(true) : setTornFlag(false);
   });
   let imgs = [
     "https://media.npr.org/assets/img/2011/08/17/fguy2006_stewie1_f_custom-f9251870653c8aab9ab0a47f028b281c97b6f1cb.jpg",

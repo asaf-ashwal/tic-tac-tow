@@ -18,17 +18,17 @@ const io = new Server(server, {
 
 // // טיפול בחיבורים של Socket.io
 
-let theSocket = ''
-console.log(theSocket);
 
 io.on('connection', (socket) => {
-    theSocket = 'a'// socket.id;
+    let theSocket = ''
+    theSocket = socket.id;
+    console.log(theSocket);
 
 
     // add player || WORKS !!!
     socket.on("addNewUser", async (data) => {
         func.addNewUser(data, theSocket).then((result) => {
-            io.emit('userAdded', result);
+            socket.emit('userAdded', result);
         })
     });
 
@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
     socket.on("createRoom", async (data) => {
         func.createRoom(theSocket)
             .then((result) => {
-                io.emit('roomId', result);
+                socket.emit('roomId', result);
             })
     });
 
@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
     // Second player joined || WORKS !!!
     socket.on("tryToJoin", async (data) => {
         console.log(data, theSocket)
+        
         func.handleJoin(data, theSocket)
             .then((result) => {
                 io.emit('joined', result);
@@ -70,8 +71,8 @@ io.on('connection', (socket) => {
 
 
 
-    socket.on('readyToGetGameData', (x) => {
-        let result = func.getStartGameData(x)
+    socket.on('readyToGetGameData', () => {
+        let result = func.getStartGameData(theSocket)
         socket.emit('getGmaeStartData', result)
     });
 

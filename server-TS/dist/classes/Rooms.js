@@ -11,7 +11,7 @@ class Rooms {
             return true;
         }
         else {
-            console.log(`Player with ID ${playerId} already exists.`);
+            console.log(`Player with ID ${playerId} exists.`);
         }
     }
     updateCorrent(location, mark) {

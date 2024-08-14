@@ -3,6 +3,7 @@ import style from "./style.module.css";
 import IconBut from "../../components/IconBut";
 import Titels from "../../components/Titels";
 import MainBox from "../../components/MainBox";
+import BordWithPlayers from "../../pages/BordWithPlayers";
 import OpshensBut from "../../components/OpshensBut";
 import Waiting from "../../pages/Waiting";
 import ModeSelection from "../../pages/ModeSelection";
@@ -18,7 +19,9 @@ export default function index() {
   const hendaleJoin = async () => {
     await socket.emit("tryToJoin", {joinCode, userInfo});
     await socket.on("joined", (data) => {
-      data ? setComponent(<>wait</>) : console.log("Room not exist");
+       setComponent(<>wait</>);
+    }); await socket.on("startGame", (data) => {
+      setComponent(<BordWithPlayers />);
     });
   };
 

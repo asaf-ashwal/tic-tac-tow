@@ -7,9 +7,16 @@ const Rooms_1 = __importDefault(require("../classes/Rooms"));
 const data_1 = __importDefault(require("../data"));
 const gameSize = 3;
 async function handleJoin(data, theSocket) {
-    if (data_1.default.RoomsData[data.joinCode]) {
-        data_1.default.RoomsData[data.joinCode].players[theSocket] = { wins: 0 };
-        console.log(data_1.default.RoomsData[data.joinCode]);
+    console.log(data.joinCode);
+    console.log("here");
+    let joinCode = data_1.default.RoomsData[data.joinCode];
+    console.log(data_1.default.players);
+    if (joinCode) {
+        joinCode.players[theSocket] = { wins: 0 };
+        // joinCode.players[theSocket] = { wins: 0 }; 
+        joinCode.addPlayer(theSocket);
+        data_1.default.players[theSocket].roomId = data.joinCode;
+        console.log(data_1.default.players);
         return true;
     }
     else {
@@ -18,12 +25,12 @@ async function handleJoin(data, theSocket) {
     }
 }
 async function createRoom(theSocket) {
-    //    TO DO ||  כשאתה מוסיף יוזר בחיבור צריך להוסיף לו פה את הקוד לחדר
     let roomId = String(Math.floor(100000 + Math.random() * 900000));
     if (!data_1.default.RoomsData[roomId]) {
         data_1.default.RoomsData[roomId] = new Rooms_1.default();
         data_1.default.RoomsData[roomId].addPlayer(theSocket);
-        // DB.players[theSocket].roomId =roomId
+        console.log(data_1.default.RoomsData[roomId].players, data_1.default.RoomsData);
+        data_1.default.players[theSocket].roomId = roomId;
         return roomId;
     }
     else {
@@ -33,6 +40,7 @@ async function createRoom(theSocket) {
 // console.log(createRoom('a'));
 async function addMark(mark, socketId) {
     const secondPlayer = findSecondKey(data_1.default.RoomsData[data_1.default.players[socketId].roomId].players, socketId);
+    console.log({ secondPlayer });
     if (mark === 'x') {
         data_1.default.RoomsData[data_1.default.players[socketId].roomId].players[socketId].mark = mark;
         data_1.default.RoomsData[data_1.default.players[socketId].roomId].players[secondPlayer].mark = 'o';
@@ -49,6 +57,7 @@ async function addMark(mark, socketId) {
 // פונקציה שמקבלת מערך ומפתח ראשון ומחזירה את המפתח השני
 function findSecondKey(obj, firstKey) {
     const keys = Object.keys(obj);
+    console.log('here', { obj });
     const firstKeyIndex = keys.indexOf(firstKey);
     if (firstKeyIndex === -1) {
         throw new Error(`The key "${firstKey}" does not exist in the object.`);
@@ -135,7 +144,8 @@ function rowStart(lastChoice) {
     return toReturn;
 }
 function getStartGameData(socketId) {
-    const { players } = data_1.default.RoomsData['123456'];
+    const roomId = data_1.default.players[socketId].roomId;
+    const { players } = data_1.default.RoomsData[roomId];
     const [secondPlayerID] = Object.keys(players).filter(id => id !== socketId);
     return {
         mark: players[socketId].mark,

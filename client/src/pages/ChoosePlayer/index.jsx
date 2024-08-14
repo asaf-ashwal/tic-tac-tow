@@ -15,7 +15,7 @@ export default function index() {
   const {socket} = useContext(socetContext);
 
   socket.on("startGame", (data) => {
-    data ? setComponent(<ChoosePlayer />) : console.log("change failed");
+    data ? setComponent(<BordWithPlayers />) : console.log("change failed");
   });
   const [showButten, setShowButten] = useState(false);
   const [theChoosen, setTheChoosen] = useState("");

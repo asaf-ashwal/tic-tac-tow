@@ -15,7 +15,7 @@ export default class Rooms implements room {
             this.players[playerId] = { wins: 0, mark: mark };
             return true
         } else {
-            console.log(`Player with ID ${playerId} already exists.`);
+            console.log(`Player with ID ${playerId} exists.`);
         }
     }
     updateCorrent(location: number,  mark: string) {

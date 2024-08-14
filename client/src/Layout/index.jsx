@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState} from "react";
 import style from "./style.module.css";
-import BordWithPlayers from "../pages/BordWithPlayers";
+import Login from "../pages/Login";
 import ChoosePlayer from "../pages/ChoosePlayer";
 // import ChoosePlayer from "../pages/ChoosePlayer";
 
@@ -9,9 +9,9 @@ export default function Layout() {
 
 //  TO DO // SOCET ON SERVER // CREAT A ROOM // FIX THE PLAYERS AND PLAYERS TURNS
 
-  // const [component, setComponent] = useState(<Login />);
-  const [component, setComponent] = useState(<BordWithPlayers />);
-  const [userInfo, setUserInfo] = useState({imag:1});
+  const [component, setComponent] = useState(<Login />);
+  // const [component, setComponent] = useState(<BordWithPlayers />);
+  const [userInfo, setUserInfo] = useState({imag:1,username:''});
 
   return (
     <allContext.Provider

@@ -3,21 +3,14 @@ import Rooms from "./classes/Rooms"
 
 
 const players: { [key: string]: PlayerClass } = {
-    a: new PlayerClass("asaf", 5, '123456'),
-    b: new PlayerClass("ori", 1, '123456'),
+    // a: new PlayerClass("asaf", 5, '123456'),
+    // b: new PlayerClass("ori", 1, '123456'),
 
 }
 
 const RoomsData: { [key: string]: Rooms } = {
-    ['123456']: new Rooms()
 
 }
-RoomsData['123456'].addPlayer('a', 'x')
-RoomsData['123456'].addPlayer('b', 'o')
-
-// RoomsData['123456'].addPlayer('2221')
-
-// rooms['123456']
 
 export default { RoomsData, players }
 // players['1234'] = {

@@ -8,7 +8,7 @@ export const socetContext = createContext();
 
 
 function App() {
-  const [socket, setSocket] = useState(io("http://localhost:3999"));
+  const [socket, setSocket] = useState('');
 
   // const [userInfo, setUserInfo] = useState({});
   return (

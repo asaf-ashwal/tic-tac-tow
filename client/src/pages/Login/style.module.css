@@ -79,12 +79,10 @@
 
 }
 
-.avatr:hover {
+/* .avatr:hover {
     scale: 1.2;
     border: 5px solid yellow;
-    /* width: 8rem;
-    height: 8rem; */
-}
+} */
 .mainAvatar{
     scale: 1.2;
     border: 5px solid yellow;
